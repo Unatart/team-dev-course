@@ -4,7 +4,6 @@
 
 #### Кому это нужно?
    Всем желающим следить за своими доходами и расходами. 
-   Даже если это кот.
    
 #### Примерный вид приложения :
 ![](readme-source/head.png)
@@ -15,8 +14,8 @@
 ![](readme-source/3.png)
 
 #### Кто в команде? 
-- Гусев Михаил, ИУ7-83 https://github.com/MikeGus
-- Уточкина Наталия, ИУ7-83 https://github.com/Unatart
+- Михаил Гусев, ИУ7-83 https://github.com/MikeGus
+- Наталия Уточкина, ИУ7-83 https://github.com/Unatart
 
 #### Технологический стек
 - Back end : Flask + Peewee (PostgreSQL orm)
