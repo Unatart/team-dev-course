@@ -4,6 +4,7 @@ branches:
         - develop
 
 language: python
+dist: xenial
 python:
     - "3.7"
 cache: pip
