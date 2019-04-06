@@ -1,5 +1,5 @@
-from models.database import User
 from passlib.hash import pbkdf2_sha256
+from models.database import User
 from validator.validator import Validator
 
 
@@ -8,11 +8,11 @@ def generate_password_hash(password):
 
 
 class Repository:
-    def __init__(self, db):
-        self.db = db
+    def __init__(self, database):
+        self.database = database
 
     def create_user(self, user):
-        with self.db.atomic():
+        with self.database.atomic():
             if user is None or not 'email' in user or not 'username' in user \
                     or not 'password' in user or not Validator.validate_password(user['password']) \
                     or not Validator.validate_email(user['email']) \
@@ -26,7 +26,7 @@ class Repository:
             return {"username": new_user.username, "email": new_user.email}
 
     def login(self, user):
-        with self.db.atomic():
+        with self.database.atomic():
             if 'email' in user:
                 db_user = User.get(User.email == user['email'])
             else:
