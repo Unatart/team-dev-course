@@ -10,5 +10,5 @@ python:
 cache: pip
 install:
     - pip install pylint Flask Flask-Cors passlib peewee validate-email
-script: pylint backend
+script: pylint --errors-only backend
 

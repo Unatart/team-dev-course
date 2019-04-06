@@ -1,6 +1,6 @@
 from passlib.hash import pbkdf2_sha256
-from models.database import User
-from validator.validator import Validator
+from database_models import User
+from validator import Validator
 
 
 def generate_password_hash(password):
@@ -13,11 +13,13 @@ class Repository:
 
     def create_user(self, user):
         with self.database.atomic():
-            if user is None or not 'email' in user or not 'username' in user \
-                    or not 'password' in user or not Validator.validate_password(user['password']) \
+            if user is None or 'email' not in user or 'username' not in user \
+                    or 'password' not in user:
+                raise ValueError('Some fields are missing')
+            if not Validator.validate_password(user['password']) \
                     or not Validator.validate_email(user['email']) \
                     or not Validator.validate_username(user['username']):
-                raise ValueError
+                raise ValueError('Some fields are incorrect')
 
             user['password'] = generate_password_hash(user['password'])
 
