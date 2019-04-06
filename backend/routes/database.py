@@ -1,20 +1,20 @@
-from flask import request, abort, make_response, jsonify
-from models.database import User
-
 import json
 import peewee
+from flask import request, abort, make_response, jsonify
+
+from models.database import User
 from repository.database import Repository
-from appconfig import app, db
+from appconfig import APP, DB
 
 
-repository = Repository(db)
+REPOSITORY = Repository(DB)
 
 
-@app.route('/api/users', methods=['POST'])
+@APP.route('/api/users', methods=['POST'])
 def create_user():
     try:
         req_user = json.loads(request.data)
-        resp_user = repository.create_user(req_user)
+        resp_user = REPOSITORY.create_user(req_user)
         resp = make_response(jsonify(resp_user), 201)
         return resp
     except peewee.IntegrityError:
@@ -25,11 +25,11 @@ def create_user():
         abort(400)
 
 
-@app.route('/api/login', methods=['POST'])
+@APP.route('/api/login', methods=['POST'])
 def login():
     try:
         req_user = json.loads(request.data)
-        resp_user, status_code = repository.login(req_user)
+        resp_user, status_code = REPOSITORY.login(req_user)
         if status_code == 403:
             abort(403)
 

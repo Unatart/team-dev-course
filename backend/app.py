@@ -1,5 +1,5 @@
 from routes.database import *
-from appconfig import app
+from appconfig import APP
 
 if __name__ == '__main__':
-    app.run(threaded=True, debug=False)
+    APP.run(threaded=True, debug=False)

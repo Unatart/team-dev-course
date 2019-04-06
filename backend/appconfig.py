@@ -5,10 +5,10 @@ from peewee import PostgresqlDatabase
 from flask_cors import CORS
 
 
-app = Flask(__name__)
-CORS(app, supports_credentials=True)
+APP = Flask(__name__)
+CORS(APP, supports_credentials=True)
 
-db = PostgresqlDatabase(
+DB = PostgresqlDatabase(
     os.environ.get('ECONAPP_DATABASE'),
     user=os.environ.get('ECONAPP_DATABASE_USER'),
     password=os.environ.get('ECONAPP_DATABASE_PASSWORD'),

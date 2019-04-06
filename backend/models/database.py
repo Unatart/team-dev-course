@@ -1,18 +1,18 @@
-from appconfig import db
-from peewee import *
+from peewee import Model, CharField
+from appconfig import DB
 
 
 def init_tables():
-    db.create_tables([User], safe=True)
+    DB.create_tables([User], safe=True)
 
 
 def drop_tables():
-    db.drop_tables([User])
+    DB.drop_tables([User])
 
 
 class BaseModel(Model):
     class Meta:
-        database = db
+        database = DB
 
 
 class User(BaseModel):
