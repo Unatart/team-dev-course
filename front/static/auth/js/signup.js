@@ -1,3 +1,7 @@
+'use strict';
+
+import {setCookie} from './cookie.js';
+
 const toSignUpButton = document.getElementById('toSignUp');
 const toSignInButton = document.getElementById('toSignIn');
 const container = document.getElementById('container');
@@ -17,18 +21,28 @@ let username = '';
 let email = '';
 let password = '';
 
+/**
+ *
+ * @param response
+ * @returns {*}
+ */
 function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
         return response
     } else {
-        var error = new Error(response.statusText)
-        error.response = response
-        throw error
+        let error = new Error(response.statusText);
+        error.response = response;
+        throw error;
     }
 }
 
+/**
+ *
+ * @param response
+ * @returns {any | Promise<any>}
+ */
 function parseJSON(response) {
-    return response.json()
+    return response.json();
 }
 
 signUpButton.addEventListener('click', () => {
@@ -53,11 +67,11 @@ signUpButton.addEventListener('click', () => {
             .then(checkStatus)
             .then(parseJSON)
             .then(() => {
-                window.localStorage.setItem('username', username);
-                document.location.href = '/front/dist/board.html';
+                setCookie('username', username);
+                document.location.href = '/front/static/board/board.html';
             })
             .catch(() => {
-                alert;
+                alert('something wrong : register fetch');
             });
     }
 
@@ -87,12 +101,12 @@ signInButton.addEventListener('click', () => {
             .then(checkStatus)
             .then(parseJSON)
             .then(() => {
-                window.localStorage.setItem('username', username);
-                document.location.href = '/front/dist/board.html';
+                setCookie('username', username);
+                document.location.href = '/front/static/board/board.html';
 
             })
             .catch(() => {
-                alert;
+                alert('something wrong : login fetch');
             });
     }
 
