@@ -4,24 +4,50 @@ addRowButton.addEventListener('click', () => {
     const descr = document.getElementById('description').value;
     const money = document.getElementById('money').value;
 
-    if (descr !== '' && money !== '') {
+    const currentChild = {'description': descr, 'money': money};
+    let arrivalList = window.localStorage.getItem('arrivalList');
+    if (arrivalList == null) {
+        let arrList = [];
+        arrList.push(currentChild);
+        window.localStorage.setItem('arrivalList',JSON.stringify(arrList));
+    } else {
+        let arrList = JSON.parse(arrivalList);
+        arrList.push(currentChild);
+        window.localStorage.setItem('arrivalList',JSON.stringify(arrList));
+    }
 
-        let table = document.getElementById('arrivalsTable');
-        let tableLength = table.rows.length - 1;
-        let newRow = table.insertRow(tableLength).outerHTML =
-            "<tr id='row" + tableLength + "'>" +
+    if (checkForOnlyNumbers(money)) {
+        let balance = + window.localStorage.getItem('balance');
+
+        if (balance == null) {
+            balance = 0;
+        }
+
+        balance += +money;
+
+        window.localStorage.setItem('balance', balance);
+
+        document.getElementById('balance').innerHTML = balance;
+
+        if (descr !== '' && money !== '') {
+
+            let table = document.getElementById('arrivalsTable');
+            let tableLength = table.rows.length - 1;
+            let newRow = table.insertRow(tableLength).outerHTML =
+                "<tr id='row" + tableLength + "'>" +
                 "<td id='descrRow" + tableLength + "'>" + descr + "</td>" +
                 "<td id='moneyRow" + tableLength + "'>" + money + "</td>" +
                 "<td>" +
-                    "<input type='button' id='editButton"+tableLength+"' value='Edit' class='edit' onclick='editRow("+tableLength+")'>" +
-                    "<input type='button' id='saveButton" + tableLength + "' value='Save' class='save' onclick='saveRow("+tableLength+")'> " +
-                    "<input type='button' id='deleteButton" + tableLength + "' value='Delete' class='delete' onclick='deleteRow("+tableLength+")' > " +
+                "<input type='button' id='editButton"+tableLength+"' value='Edit' class='edit' onclick='editRow("+tableLength+")'>" +
+                "<input type='button' id='saveButton" + tableLength + "' value='Save' class='save' onclick='saveRow("+tableLength+")'> " +
+                "<input type='button' id='deleteButton" + tableLength + "' value='Delete' class='delete' onclick='deleteRow("+tableLength+")' > " +
                 "</td>" +
-            "</tr>";
+                "</tr>";
 
-        document.getElementById('description').value = '';
-        document.getElementById('money').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('money').value = '';
 
+        }
     }
 });
 
@@ -55,4 +81,13 @@ function saveRow(n) {
 
 function deleteRow(n) {
     document.getElementById("row"+n+"").outerHTML="";
+}
+
+function checkForOnlyNumbers(str) {
+    for (let i of str) {
+        if ( i >= '0' && i <= '9') {
+            return true;
+        }
+    }
+    return false;
 }
