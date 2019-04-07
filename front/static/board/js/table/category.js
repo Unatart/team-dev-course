@@ -1,3 +1,7 @@
+'use strict';
+
+import {sendInfo} from '../info/sendInfo.js';
+
 let CategoryButton = document.getElementById('addCategory');
 
 CategoryButton.addEventListener('click', () => {
@@ -5,7 +9,7 @@ CategoryButton.addEventListener('click', () => {
     let select = document.getElementById('category');
 
     if (categoryView !== '') {
-        if (window.localStorage.getItem('category') == null) {
+        if (window.localStorage.getItem('category') === 'null' || window.localStorage.getItem('category') == null) {
 
             let arrCategory = [];
             arrCategory.push(categoryView);
@@ -18,6 +22,7 @@ CategoryButton.addEventListener('click', () => {
         } else {
 
             let arrCategory = JSON.parse(window.localStorage.getItem('category'));
+
             if (!alreadyExist(arrCategory, categoryView)) {
                 arrCategory.push(categoryView);
                 window.localStorage.setItem('category', JSON.stringify(arrCategory));
@@ -30,6 +35,8 @@ CategoryButton.addEventListener('click', () => {
     }
 
     document.getElementById('categoryDescript').value = '';
+
+    sendInfo();
 });
 
 function alreadyExist(arr, str) {

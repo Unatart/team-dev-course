@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Board</title>
-    <link href="static/css/board_style.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="static/icons/css/ionicons.min.css">
+    <link href="css/board_style.css" rel="stylesheet" type="text/css">
+    <link href="css/table.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="static/css/table.css">
 </head>
 <body>
 <header>
@@ -86,11 +85,13 @@
     </div>
 </header>
 
-<script defer src="static/js/getInfo.js"></script>
-<script defer src="static/js/board.js"></script>
-<script async src="static/js/category.js"></script>
-<script async src="static/js/arrivalTable.js"></script>
-<script async src="static/js/spendingsTable.js"></script>
+
+<script async src="js/setupBoard/setupBoard.js" type="module"></script>
+<script async src="js/setupBoard/setupInfo.js" type="module"></script>
+
+<script async src="js/table/category.js" type="module"></script>
+<script async src="js/table/arrivalsTable.js" type="module"></script>
+<script async src="js/table/spendingsTable.js" type="module"></script>
 
 </body>
 </html>
