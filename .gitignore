@@ -73,7 +73,6 @@ fabric.properties
 *.pyo
 env/
 env*
-dist/
 build/
 *.egg
 *.egg-info/
