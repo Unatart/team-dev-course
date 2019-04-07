@@ -5,7 +5,6 @@
     <title>EconApp-SignUp</title>
     <link href="static/css/sign_style.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,700" rel="stylesheet">
 </head>
 <body>
 <div class="container" id="container">
@@ -13,19 +12,19 @@
         <form action="#">
             <h1>Create Account</h1>
             <span>or use your email for registration</span>
-            <input type="text" placeholder="Name" required />
-            <input type="email" placeholder="Email" required />
-            <input type="password" placeholder="Password" required/>
-            <button>Sign Up</button>
+            <input id="usernameUp" type="text" placeholder="Username" required />
+            <input id="emailUp" type="email" placeholder="Email" required />
+            <input id="passwordUp" type="password" placeholder="Password" required/>
+            <button id="signUp">Sign Up</button>
         </form>
     </div>
     <div class="form-container sign-in-container">
         <form action="#">
             <h1>Sign in</h1>
             <span>or use your account</span>
-            <input type="email" placeholder="Email" required />
-            <input type="password" placeholder="Password" required />
-            <button>Sign In</button>
+            <input id="usernameIn" type="username" placeholder="Username" required />
+            <input id="passwordIn" type="password" placeholder="Password" required />
+            <button id="signIn">Sign In</button>
         </form>
     </div>
     <div class="overlay-container">
@@ -35,12 +34,12 @@
                 <p>
                     To keep connected with us please login with your personal info
                 </p>
-                <button class="ghost" id="signIn">Sign In</button>
+                <button class="ghost" id="toSignIn">Sign In</button>
             </div>
             <div class="overlay-panel overlay-right">
                 <h1>Hello, Friend!</h1>
                 <p>Enter your personal details and start journey with us</p>
-                <button class="ghost" id="signUp">Sign Up</button>
+                <button class="ghost" id="toSignUp">Sign Up</button>
             </div>
         </div>
     </div>

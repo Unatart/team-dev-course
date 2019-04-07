@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Board</title>
+    <link href="static/css/board_style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="static/icons/css/ionicons.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/css/table.css">
+</head>
+<body>
+<header>
+
+    <ul id="infoBox">
+        <li> <span>balance:</span> 330000$ </li>
+    </ul>
+
+    <div class="section1">
+
+        <div class="add">
+            <h2>Did u earn some?</h2>
+            <input id="description" type="text" placeholder="add description"/>
+            <input id="money" type="text" placeholder="$"/>
+            <button id="addRow" type="submit" onclick="opt1.addRow();">add</button>
+        </div>
+
+        <div class="list">
+            <div class="tbl-header">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <thead>
+                        <tr>
+                            <th>description</th>
+                            <th>quantity</th>
+                            <th>options</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="tbl-content">
+                <table cellpadding="0" cellspacing="0" border="0" id="arrivalsTable">
+
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="section2">
+
+        <div class="add">
+            <h2>Did u spend some?</h2>
+            <input id="description2" type="text" placeholder="add description" />
+            <input id="money2" type="text" placeholder="$" />
+            <select id="category"></select>
+            <button id="addRow2" type="submit">add</button>
+        </div>
+
+        <div class="addCategory">
+            <h2>Add category</h2>
+            <input id="categoryDescript" type="text" placeholder="Food" />
+            <button id="addCategory" type="submit">add category</button>
+        </div>
+
+        <div class="list">
+            <div class="tbl-header">
+                <table cellpadding="0" cellspacing="0" border="0" id="spendingsTableHeader">
+                    <thead>
+                    <tr>
+                        <th>description</th>
+                        <th>quantity</th>
+                        <th>category</th>
+                        <th>options</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="tbl-content">
+                <table cellpadding="0" cellspacing="0" border="0" id="spendingsTable">
+
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</header>
+
+<script defer src="static/js/getInfo.js"></script>
+<script defer src="static/js/board.js"></script>
+<script async src="static/js/category.js"></script>
+<script async src="static/js/arrivalTable.js"></script>
+<script async src="static/js/spendingsTable.js"></script>
+
+</body>
+</html>
