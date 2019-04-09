@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 100;
+    word-spacing: 2px;
+    font-size: 18px;
+    color: #fff;
+}
+
+/* ---------------------------------- */
+/* HEADER */
+/* ---------------------------------- */
+
+header {
+    height: 100vh;
+    background-size: cover;
+    background-image: linear-gradient(90deg, #FF512F, #DD2476);
+    background-position: center;
+}
+
+.nav-bar {
+    float: right;
+    margin-top: 2%;
+    margin-right: 1%;
+    font-size: 180%;
+}
+
+.nav-bar li {
+    display: inline;
+    margin-right: 40px;
+}
+
+a:link,
+a:hover,
+a:active,
+a:visited {
+    transition: border-bottom 0.2s;
+    text-decoration: none;
+    color: white;
+}
+
+a:hover,
+a:active {
+    padding-bottom: 1px;
+    border-bottom: 1px solid white;
+}
+
+.hero {
+    padding-top: 15%;
+    margin-left: 25%;
+    width: 20%;
+    text-align: right;
+}
+
+.hero p {
+    margin-top: 5px;
+    font-size: 110%;
+}
+
+h1 {
+    font-size: 600%;
+    font-weight: 100;
+    vertical-align: middle;
+}
+
+/* ------------------------------ */
+/* FOOTER */
+/* ------------------------------ */
+
+footer {
+    height: 100vh;
+    background-size: cover;
+    background-image: linear-gradient(90deg, #FF512F, #DD2476);
+    background-position: center;
+}
+
+.about-section {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 13%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 2vw;
+}
+
+.about-section div {
+    display: block;
+    font-size: 170%;
+    margin: 0 auto;
+}
+
+.icon-big {
+    font-size: 350%;
+    display: block;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.contact-section {
+    text-align: center;
+    padding-top: 20%;
+}
+
+.contact-section p {
+    font-size: 230%;
+}
+
+.contact-section p span {
+    font-size: 50%;
+}
