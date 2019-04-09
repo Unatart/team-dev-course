@@ -1,0 +1,232 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 100;
+    word-spacing: 2px;
+    font-size: 18px;
+    color: #fff;
+}
+
+section {
+    height: 100vh;
+    background-size: cover;
+    background: linear-gradient(90deg, #FF512F, #DD2476) center;
+}
+
+h2 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 100;
+    word-spacing: 2px;
+    color: #fff;
+}
+
+ul {
+    font-size: 250%;
+    color: #fff;
+    padding: 30px 100px;
+    float:right;
+}
+
+li {
+    display: inline;
+}
+
+a:link,
+a:visited,
+a:hover {
+    display: block;
+    word-spacing: 2px;
+    text-decoration: none;
+    color: #fff;
+    padding-bottom: 3px;
+    margin-right: 10px;
+    border-bottom: 1px solid #fff;
+}
+
+li:last-child {
+    margin-left: 100px;
+}
+
+.add {
+    width: 70%;
+    padding: 10% 15% 3% 15%;
+}
+
+.addCategory {
+    width: 60%;
+    padding: 0 20% 3% 20%;
+}
+
+.add h2 {
+    font-weight: 100;
+    font-size: 200%;
+}
+
+#description {
+    background-color: rgba(0,0,0,0);
+    box-sizing: border-box;
+    margin-top:10px;
+    font-size: 22px;
+    width: 50%;
+    border: 1px solid #fff;
+    color: #fff;
+    font-family: 'Quicksand', sans-serif;
+    word-spacing: 2px;
+    text-align: center;
+}
+
+#description::placeholder {
+    color: #fff;
+    font-family: 'Quicksand', sans-serif;
+    word-spacing: 2px;
+    text-align: center;
+}
+
+#categoryDescript {
+    background-color: rgba(0,0,0,0);
+    box-sizing: border-box;
+    margin-top:10px;
+    font-size: 22px;
+    width: 60%;
+    border: 1px solid #fff;
+    color: #fff;
+    font-family: 'Quicksand', sans-serif;
+    word-spacing: 2px;
+    text-align: center;
+}
+
+#categoryDescript::placeholder {
+    color: #fff;
+    font-family: 'Quicksand', sans-serif;
+    word-spacing: 2px;
+    text-align: center;
+}
+
+#money {
+    margin-left: 10px;
+    background-color: rgba(0,0,0,0);
+    box-sizing: border-box;
+    margin-top:10px;
+    font-size: 22px;
+    width: 30%;
+    border: 1px solid #fff;
+    color: #fff;
+    font-family: 'Quicksand', sans-serif;
+    word-spacing: 2px;
+    text-align: center;
+}
+
+#money::placeholder {
+    color: #fff;
+    font-family: 'Quicksand', sans-serif;
+    word-spacing: 2px;
+    text-align: center;
+}
+
+#description2 {
+    background-color: rgba(0,0,0,0);
+    box-sizing: border-box;
+    margin-top:10px;
+    font-size: 22px;
+    width: 50%;
+    border: 1px solid #fff;
+    color: #fff;
+    font-family: 'Quicksand', sans-serif;
+    word-spacing: 2px;
+    text-align: center;
+}
+
+#startDate,
+#finishDate {
+    background-color: rgba(0,0,0,0);
+    box-sizing: border-box;
+    margin-top:10px;
+    margin-right: 10px;
+    font-size: 22px;
+    width: 25%;
+    border: 1px solid #fff;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Quicksand', sans-serif;
+    word-spacing: 2px;
+    text-align: center;
+}
+
+#description2::placeholder,
+#startDate::placeholder,
+#finishDate::placeholder {
+    color: #fff;
+    font-family: 'Quicksand', sans-serif;
+    word-spacing: 2px;
+    text-align: center;
+}
+
+#money2 {
+    margin-left: 10px;
+    background-color: rgba(0,0,0,0);
+    box-sizing: border-box;
+    margin-top:10px;
+    font-size: 22px;
+    width: 25%;
+    border: 1px solid #fff;
+    color: #fff;
+    font-family: 'Quicksand', sans-serif;
+    word-spacing: 2px;
+    text-align: center;
+}
+
+#money2::placeholder {
+    color: #fff;
+    font-family: 'Quicksand', sans-serif;
+    word-spacing: 2px;
+    text-align: center;
+}
+
+button {
+    margin-left: 20px;
+    border: rgba(0,0,0,0);
+    border-bottom: 1px solid #fff;
+    background-color: rgba(0,0,0,0);
+    font-size: 22px;
+    word-spacing: 2px;
+    font-family: 'Quicksand', sans-serif;
+    color: #fff;
+
+}
+
+.navigation {
+    padding: 40px 0 0 40px;
+    position: fixed;
+    font-size: 150%;
+}
+
+select {
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    transform-origin:center;
+    cursor:pointer;
+    border: none;
+    border-bottom: 1px solid #fff;
+    width: 15%;
+    height: 30px;
+    padding: 0 2px 1px 2px;
+    min-width: 5%;
+    color: rgba(255, 255, 255, 0.80);
+    background:none;
+    text-align: center;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 100;
+    word-spacing: 2px;
+    font-size: 22px;
+}
+
+.chart {
+    width: 600px;
+    height: 600px;
+    margin: 5% auto 0;
+
+}
