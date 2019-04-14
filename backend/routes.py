@@ -115,7 +115,7 @@ def delete_spending(spending_id):
         abort(400)
 
 
-@ECONOMICS_APP.route('/api/users/<string:username>', methods=['GET'])
+@ECONOMICS_APP.route('/api/users/<username>', methods=['GET'])
 def get_user_tables(username):
     try:
         resp, status_code = REPOSITORY.get_user_tables(username)
@@ -124,3 +124,16 @@ def get_user_tables(username):
         return make_response(jsonify(resp), 200)
     except KeyError:
         abort(400)
+
+
+@ECONOMICS_APP.route('/api/chart', methods=['POST'])
+def get_chart_info():
+    try:
+        req = json.loads(request.data)
+        resp, status_code = REPOSITORY.get_chart_info(req)
+        if status_code == 403:
+            abort(403)
+        return make_response(jsonify(resp), 200)
+    except KeyError:
+        abort(400)
+

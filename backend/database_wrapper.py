@@ -25,7 +25,7 @@ class Repository:
 
             new_user = User(**user)
             new_user.save()
-            return {"username": new_user.username, "email": new_user.email}
+            return {"username": new_user.username, "email": new_user.email}, 201
 
     def login(self, user):
         with self.database.atomic():
@@ -99,7 +99,8 @@ class Repository:
             amount = req['amount']
             description = req['description']
             date = req['date']
-            category = Category.get(Category.id == req['category_id'] and Category.user == user)
+            category_descr = req['category']
+            category = Category.get(Category.user == user and Category.description == category_descr)
 
             spending = Spending(amount=amount, description=description, date=date, category=category, user=user)
             spending.save()
@@ -116,7 +117,7 @@ class Repository:
                     spending.amount = req['amount']
                     spending.description = req['description']
                     spending.date = req['date']
-                    spending.category = Category.get(Category.id == req['category_id'] and Category.user == user)
+                    spending.category = Category.get(Category.user == user and Category.description == req['category'])
                     spending.save()
                 else:
                     return {}, 403
@@ -146,7 +147,8 @@ class Repository:
 
             arrivals = [
                 {
-                    "amount": arrival.amount,
+                    "money": arrival.amount,
+                    "description": arrival.description,
                     "date": str(arrival.date),
                     "id": arrival.id
                 }
@@ -157,8 +159,7 @@ class Repository:
 
             categories = [
                 {
-                    "description": category.description,
-                    "id": category.id
+                    "description": category.description
                 }
                 for category in Category.select(
                     Category.description, Category.id
@@ -167,7 +168,8 @@ class Repository:
 
             spendings = [
                 {
-                    "amount": spending.amount,
+                    "money": spending.amount,
+                    "description": spending.description,
                     "date": str(spending.date),
                     "category": spending.category.description,
                     "id": spending.id
@@ -178,5 +180,43 @@ class Repository:
             ]
 
             return {
-                'arrivals': arrivals, 'categories': categories, 'spendings': spendings, 'user': user.username
+                'arrivalsList': arrivals, 'category': categories, 'spendingsList': spendings, 'user': user.username
             }, 200
+
+    def get_chart_info(self, req):
+        with self.database.atomic():
+            user = User.get(User.username == req['username'])
+
+            start_date = req['start_date']
+            finish_date = req['finish_date']
+
+            categories = [
+                category.description
+                for category in Category.select(
+                    Category.description, Category.id
+                ).where(Category.user == user)
+            ]
+
+            spendings = [
+                {
+                    "money": spending.amount,
+                    "category": spending.category.description
+                }
+                for spending in Spending.select(
+                    Spending.amount, Spending.category,
+                ).where(Spending.user == user and start_date >= Spending.date >= finish_date)
+            ]
+
+            total = 0
+            for spending in spendings:
+                total += spending["money"]
+
+            chart_info = []
+            for curr_category in categories:
+                curr_category_amount = 0
+                for spending in spendings:
+                    if spending["category"] == curr_category:
+                        curr_category_amount += spending["money"]
+                chart_info.append({"category": curr_category, "money": curr_category_amount/total})
+
+            return {'info': chart_info}, 200
