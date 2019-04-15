@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EconApp-SignUp</title>
+    <link href="css/sign_style.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500" rel="stylesheet">
+</head>
+<body>
+<div class="container" id="container">
+    <div class="form-container sign-up-container">
+        <form action="#">
+            <h1>Create Account</h1>
+            <span>or use your email for registration</span>
+            <input id="usernameUp" type="text" placeholder="Username" required />
+            <input id="emailUp" type="email" placeholder="Email" required />
+            <input id="passwordUp" type="password" placeholder="Password" required/>
+            <button id="signUp">Sign Up</button>
+        </form>
+    </div>
+    <div class="form-container sign-in-container">
+        <form action="#">
+            <h1>Sign in</h1>
+            <span>or use your account</span>
+            <input id="usernameIn" type="text" placeholder="Username" required />
+            <input id="passwordIn" type="password" placeholder="Password" required />
+            <button id="signIn">Sign In</button>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Welcome Back!</h1>
+                <p>
+                    To keep connected with us please login with your personal info
+                </p>
+                <button class="ghost" id="toSignIn">Sign In</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Hello, Friend!</h1>
+                <p>Enter your personal details and start journey with us</p>
+                <button class="ghost" id="toSignUp">Sign Up</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/signup.js" type="module"></script>
+</body>
+</html>
