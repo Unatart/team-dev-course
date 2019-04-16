@@ -17,9 +17,9 @@ matrix:
       - language: node_js
         node_js:
             - "8.15.1"
+        before_install:
+            cd frontend
         install:
             - npm install eslint
-        before_script:
-            cd frontend
         script:
             npm test
