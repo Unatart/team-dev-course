@@ -2,15 +2,24 @@ branches:
     only:
         - master
         - develop
-
-language: python
-dist: xenial
-python:
-    - "3.7"
-cache: pip
-install:
-    - pip install pylint Flask Flask-Cors passlib peewee validate-email
-script:
-    pylint --errors-only backend;
-    python backend/run_tests.py
-
+matrix:
+    include:
+      - language: python
+        dist: xenial
+        python:
+            - "3.7"
+        cache: pip
+        install:
+            - pip install pylint Flask Flask-Cors passlib peewee validate-email
+        script:
+            pylint --errors-only backend;
+            python backend/run_tests.py
+      - language: node_js
+        node_js:
+            - "8.15.1"
+        install:
+            - npm install eslint
+        before_script:
+            cd frontend
+        script:
+            npm test
