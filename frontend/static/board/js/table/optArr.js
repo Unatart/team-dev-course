@@ -66,7 +66,9 @@ function updateToLocal(descr, money, n, id) {
             return 200;
         }
         else {
-            alert('updateToLocal1 arr bad balance');
+            console.log(new Error('updateToLocal1 arr bad balance'));
+            let arrError = document.getElementById('arrivalError');
+            arrError.innerHTML = 'Bad balance';
             return 400;
         }
 
@@ -85,7 +87,9 @@ function updateToLocal(descr, money, n, id) {
             return 200;
         }
         else {
-            alert('updateToLocal2 arr bad balance');
+            console.log(new Error('updateToLocal2 arr bad balance'));
+            let arrError = document.getElementById('arrivalError');
+            arrError.innerHTML = 'Bad balance';
             return 400;
         }
     }
@@ -116,6 +120,8 @@ function updateToRemote(address, descr, money, id) {
             .then(parseJSON)
             .catch((error) => {
                 console.log(error);
+                let arrError = document.getElementById('arrivalError');
+                arrError.innerHTML = 'Some problem with database - watch logs';
             });
     }
 
@@ -141,7 +147,6 @@ function deleteToLocal(n, id) {
     let spendingsList = window.localStorage.getItem('spendingsList');
 
     if (!(spendingsList === 'null' || spendingsList == null)) {
-        let spdList = JSON.parse(spendingsList);
         let totalSpd = getSpdTotal();
 
         if (total - objFromArrById(arrList, id)['money'] - totalSpd >= 0) {
@@ -159,7 +164,9 @@ function deleteToLocal(n, id) {
             return 200;
         }
         else {
-            alert('deleteToLocal arr bad balance');
+            console.log(new Error('deleteToLocal arr bad balance'));
+            let arrError = document.getElementById('arrivalError');
+            arrError.innerHTML = 'Bad balance';
             return 403;
         }
 
@@ -179,7 +186,9 @@ function deleteToLocal(n, id) {
             return 200;
         }
         else {
-            alert('deleteToLocal arr bad balance');
+            console.log(new Error('deleteToLocal arr bad balance'));
+            let arrError = document.getElementById('arrivalError');
+            arrError.innerHTML = 'Bad balance';
             return 403;
         }
     }
@@ -207,6 +216,8 @@ function deleteToRemote(address, id) {
             .then(parseJSON)
             .catch((error) => {
                 console.log(error);
+                let arrError = document.getElementById('arrivalError');
+                arrError.innerHTML = 'Some problem with database - watch logs';
             });
     }
 

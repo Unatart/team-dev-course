@@ -40,7 +40,11 @@ function getChartInfo(opts) {
                 console.log(data);
                 createChart(data);
             })
-            .catch(error => console.error(error));
+            .catch(error => {
+                console.error(error);
+                let chartError = document.getElementById('chartError');
+                chartError.innerHTML = 'Bad dates';
+            });
     }
 
     return receive();
@@ -57,16 +61,14 @@ function createChart(data) {
         }
     }
     let rgbArr = randomColor({
-        count: arrData.length,
-        hue: 'red',
-        luminosity: 'bright'
+        count: arrData.length
     });
 
     let ctx = document.getElementById('chartPie').getContext('2d');
     ctx.canvas.width = 300;
     ctx.canvas.height = 300;
 
-    let pieChart = new Chart(ctx, {
+    new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: labelsData,

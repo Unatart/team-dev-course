@@ -2,18 +2,14 @@
 
 import {setBalance, setCategories, setTableArrivals, setTableSpendings} from '../setupBoard/setupInfo.js';
 import {getCookie} from "../../../auth/js/cookie.js";
-import {checkStatus, parseJSON} from "./utils.js";
+import {checkStatus} from "./utils.js";
 
 function receiveInfo() {
     /**
      *
      * @param address
      */
-    function receive(address) {
-        let init = {
-            credentials: 'include'
-        };
-
+    function receive() {
         fetch('http://127.0.0.1:5000/api/users'+'/'+getCookie('username'))
             .then(checkStatus)
             .then(response => response.json())

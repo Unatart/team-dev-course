@@ -45,7 +45,7 @@ function addToLocal(descr, money, id) {
         window.localStorage.setItem('arrivalsList',JSON.stringify(arrList));
     }
 
-    createRow(descr, money, today, id);
+    createRow(descr, money, today);
 }
 
 function addToRemote(address, descr, money) {
@@ -75,13 +75,15 @@ function addToRemote(address, descr, money) {
             })
             .catch((error) => {
                 console.log(error);
+                let arrError = document.getElementById('arrivalError');
+                arrError.innerHTML = 'Some problem with database - watch logs';
             });
     }
 
     sendInfo();
 }
 
-function createRow(descr, money, date, id) {
+function createRow(descr, money, date) {
     let balance = +window.localStorage.getItem('balance');
 
     balance == null ? balance = 0 : balance += +money;

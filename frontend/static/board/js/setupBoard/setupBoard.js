@@ -6,9 +6,9 @@ import {receiveInfo} from "../info/receiveInfo.js";
 function setUsername() {
     const username = getCookie('username');
 
-    // if (username == null) {
-    //     document.location.href = '/frontend/static/index/index.html';
-    // }
+    if (username == null) {
+        document.location.href = '/frontend/static/index/index.html';
+    }
 
     let node = document.createElement('LI');
     let textNode = document.createTextNode(username);

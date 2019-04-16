@@ -15,6 +15,13 @@ h1 {
     font-weight: 100;
 }
 
+.error {
+    color: #929292;
+    font-size: 70%;
+    word-spacing: 2px;
+    font-weight: 100;
+}
+
 form h1 {
     color: black;
 }

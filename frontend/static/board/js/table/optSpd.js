@@ -65,7 +65,7 @@ function updateToLocalS(descr, money, selected, n, id) {
     let diff = objFromArrById(spdList, id)['money'] - money;
     diff = diff >=0 ? diff : (diff * -1);
 
-    alert(totalSpd + diff);
+    console.log(totalSpd + diff);
     if (total - (totalSpd - diff) >= 0) {
         let balance = total - (totalSpd - diff);
 
@@ -80,7 +80,9 @@ function updateToLocalS(descr, money, selected, n, id) {
         return 200;
     }
     else {
-        alert(' negative balance updateToLocalS ');
+        console.log(new Error('negative balance updateToLocalS'));
+        let spdError = document.getElementById('spendingError');
+        spdError.innerHTML = 'Bad balance';
         return 400;
     }
 
@@ -109,6 +111,8 @@ function updateToRemoteS(address, descr, money, category, id) {
             .then(parseJSON)
             .catch((error) => {
                 console.log(error);
+                let spdError = document.getElementById('spendingError');
+                spdError.innerHTML = 'Some problem with database - watch logs';
             });
     }
 
@@ -166,6 +170,8 @@ function deleteToRemoteS(address, id) {
             .then(parseJSON)
             .catch((error) => {
                 console.log(error);
+                let spdError = document.getElementById('spendingError');
+                spdError.innerHTML = 'Some problem with database - watch logs';
             });
     }
 

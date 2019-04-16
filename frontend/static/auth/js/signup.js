@@ -17,10 +17,6 @@ toSignInButton.addEventListener('click', () => {
 const signUpButton = document.getElementById('signUp');
 const signInButton = document.getElementById('signIn');
 
-let username = '';
-let email = '';
-let password = '';
-
 /**
  *
  * @param response
@@ -46,9 +42,9 @@ function parseJSON(response) {
 }
 
 signUpButton.addEventListener('click', () => {
-    username = document.getElementById('usernameUp').value;
-    email = document.getElementById('emailUp').value;
-    password = document.getElementById('passwordUp').value;
+    let username = document.getElementById('usernameUp').value;
+    let email = document.getElementById('emailUp').value;
+    let password = document.getElementById('passwordUp').value;
 
     let opts = { 'username': username, 'email': email, 'password': password };
 
@@ -67,11 +63,14 @@ signUpButton.addEventListener('click', () => {
             .then(checkStatus)
             .then(parseJSON)
             .then(data => {
-                setCookie('username', data['username']);
+                setCookie('username', data[0]['username']);
                 document.location.href = '/frontend/static/board/board.html';
             })
-            .catch(() => {
-                alert('something wrong : register fetch');
+
+            .catch((error) => {
+                console.log(error);
+                let errorUp = document.getElementById('signUpError');
+                errorUp.innerHTML = 'Such user already exists';
             });
     }
 
@@ -79,9 +78,8 @@ signUpButton.addEventListener('click', () => {
 });
 
 signInButton.addEventListener('click', () => {
-    username = document.getElementById('usernameIn').value;
-    // maybe an email
-    password = document.getElementById('passwordIn').value;
+    let username = document.getElementById('usernameIn').value;
+    let password = document.getElementById('passwordIn').value;
 
     let opts = {};
     if (username.includes('@')) {
@@ -117,6 +115,8 @@ signInButton.addEventListener('click', () => {
             })
             .catch((error) => {
                 console.log(error);
+                let errorIn = document.getElementById('signInError');
+                errorIn.innerHTML = 'No such user';
             });
     }
 

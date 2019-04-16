@@ -64,6 +64,8 @@ function addCategoryToRemote(address, descr) {
             .then(parseJSON)
             .catch((error) => {
                 console.log(error);
+                let spdError = document.getElementById('spendingError');
+                spdError.innerHTML = 'Some problem with database - watch logs';
             });
     }
 

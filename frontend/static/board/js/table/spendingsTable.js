@@ -39,7 +39,7 @@ function addToLocalS(descr, money, selected, id) {
             window.localStorage.setItem('balance', +window.localStorage.getItem('balance') - currentChild['money']);
         }
         else {
-            alert('addToLocalS negative total');
+            console.log(new Error('addToLocalS negative total'));
         }
 
     } else {
@@ -50,7 +50,7 @@ function addToLocalS(descr, money, selected, id) {
             window.localStorage.setItem('balance', +window.localStorage.getItem('balance') - currentChild['money']);
         }
         else {
-            alert('addToLocalS negative total');
+            console.log(new Error('addToLocalS negative total'));
         }
     }
 
@@ -85,6 +85,8 @@ function addToRemoteS(address, descr, money, category) {
             })
             .catch((error) => {
                 console.log(error);
+                let spdError = document.getElementById('spendingError');
+                spdError.innerHTML = 'Some problem with database - watch logs';
             });
     }
 
