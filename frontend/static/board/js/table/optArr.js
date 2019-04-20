@@ -1,6 +1,6 @@
 'use strict';
 
-import {getArrTotal, getSpdTotal, getTime, objFromArrById} from "./utils.js";
+import {getArrTotal, getSpdTotal, getTime, objFromArrById, checkForOnlyNumbers} from "./utils.js";
 import {getCookie} from "../../../auth/js/cookie.js";
 import {checkStatus, parseJSON} from "../info/utils.js";
 
@@ -27,8 +27,8 @@ function saveRow() {
     let descr = document.getElementById("descrText"+n).value;
     let money = document.getElementById("moneyText"+n).value;
 
-    if (+money > 0) {
-        let id = JSON.parse(window.localStorage.getItem('arrivalsList'))[n]['id'];
+    if (+money > 0 && checkForOnlyNumbers(money)) {
+        let id = (JSON.parse(window.localStorage.getItem('arrivalsList')).find(x => x.tInd === n))['id'];
         let status = updateToLocal(descr, money, n, id);
         if (status === 200) {
             document.getElementById("descrRow" + n).innerHTML = descr;
@@ -36,6 +36,9 @@ function saveRow() {
             document.getElementById("editButton" + n).style.display = "block";
             document.getElementById("saveButton" + n).style.display = "none";
         }
+    }
+    else {
+        document.getElementById('arrivalError').innerHTML = '!!!Second field should contain only money amount(numbers).';
     }
 
 }
@@ -67,8 +70,7 @@ function updateToLocal(descr, money, n, id) {
         }
         else {
             console.log(new Error('updateToLocal1 arr bad balance'));
-            let arrError = document.getElementById('arrivalError');
-            arrError.innerHTML = 'Bad balance';
+            document.getElementById('arrivalError').innerHTML = '!!!Cant do that. Negative balance.';
             return 400;
         }
 
@@ -88,8 +90,7 @@ function updateToLocal(descr, money, n, id) {
         }
         else {
             console.log(new Error('updateToLocal2 arr bad balance'));
-            let arrError = document.getElementById('arrivalError');
-            arrError.innerHTML = 'Bad balance';
+            document.getElementById('arrivalError').innerHTML = '!!!Cant do that. Negative balance.';
             return 400;
         }
     }
@@ -121,7 +122,7 @@ function updateToRemote(address, descr, money, id) {
             .catch((error) => {
                 console.log(error);
                 let arrError = document.getElementById('arrivalError');
-                arrError.innerHTML = 'Some problem with database - watch logs';
+                arrError.innerHTML = '!!!DataBase error.';
             });
     }
 
@@ -132,7 +133,7 @@ function updateToRemote(address, descr, money, id) {
 function deleteRow() {
     const n = this.tableLength;
 
-    let id = JSON.parse(window.localStorage.getItem('arrivalsList'))[n]['id'];
+    let id = (JSON.parse(window.localStorage.getItem('arrivalsList')).find(x => x.tInd === n))['id'];
     let status = deleteToLocal(n, id);
     if (status === 200) {
         document.getElementById("row" + n + "").outerHTML = "";
@@ -165,8 +166,7 @@ function deleteToLocal(n, id) {
         }
         else {
             console.log(new Error('deleteToLocal arr bad balance'));
-            let arrError = document.getElementById('arrivalError');
-            arrError.innerHTML = 'Bad balance';
+            document.getElementById('arrivalError').innerHTML = '!!!Cant do that. Negative balance.';
             return 403;
         }
 
@@ -187,8 +187,7 @@ function deleteToLocal(n, id) {
         }
         else {
             console.log(new Error('deleteToLocal arr bad balance'));
-            let arrError = document.getElementById('arrivalError');
-            arrError.innerHTML = 'Bad balance';
+            document.getElementById('arrivalError').innerHTML = '!!!Cant do that. Negative balance.';
             return 403;
         }
     }
@@ -216,8 +215,7 @@ function deleteToRemote(address, id) {
             .then(parseJSON)
             .catch((error) => {
                 console.log(error);
-                let arrError = document.getElementById('arrivalError');
-                arrError.innerHTML = 'Some problem with database - watch logs';
+                document.getElementById('arrivalError').innerHTML = '!!!DataBase error';
             });
     }
 

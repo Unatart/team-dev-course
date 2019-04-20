@@ -2,7 +2,7 @@
 
 import {deleteRow, editRow, saveRow} from "./optArr.js";
 import {getCookie} from "../../../auth/js/cookie.js";
-import {getTime, style} from "./utils.js";
+import {getTime, style, checkForOnlyNumbers} from "./utils.js";
 import {checkStatus, parseJSON} from "../info/utils.js";
 
 const addRowButton = document.getElementById('addRow');
@@ -11,28 +11,28 @@ addRowButton.addEventListener('click', () => {
     const descr = document.getElementById('description').value;
     const money = document.getElementById('money').value;
 
-    if (checkForOnlyNumbers(money)) {
-        if (+money > 0) {
-            addToRemote('http://127.0.0.1:5000/api/arrivals', descr, money);
-        }
+    if (descr !== '' && money !== '') {
+        if (checkForOnlyNumbers(money)) {
+            if (+money > 0) {
+                document.getElementById('arrivalError').innerHTML = '';
+                addToRemote('http://127.0.0.1:5000/api/arrivals', descr, money);
+            }
 
-        document.getElementById('description').value = '';
-        document.getElementById('money').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('money').value = '';
+        } else {
+            document.getElementById('arrivalError').innerHTML = '!!!Second field should contain only money amount(numbers).'
+        }
+    } else {
+        document.getElementById('arrivalError').innerHTML = '!!!Fields must be filled.';
     }
 });
 
-function checkForOnlyNumbers(str) {
-    for (let i of str) {
-        if ( i >= '0' && i <= '9') {
-            return true;
-        }
-    }
-    return false;
-}
-
 function addToLocal(descr, money, id) {
     let today = getTime();
-    const currentChild = {'id': id, 'description': descr, 'money': money, 'data': today};
+    let table = document.getElementById('arrivalsTable');
+    let tableLength = table.rows.length;
+    const currentChild = {'id': id, 'description': descr, 'money': money, 'data': today, 'tInd': tableLength};
     let arrivalsList = window.localStorage.getItem('arrivalsList');
 
     if (arrivalsList === 'null' || arrivalsList == null) {
@@ -45,7 +45,7 @@ function addToLocal(descr, money, id) {
         window.localStorage.setItem('arrivalsList',JSON.stringify(arrList));
     }
 
-    createRow(descr, money, today);
+    createRow(descr, money, today, id);
 }
 
 function addToRemote(address, descr, money) {
@@ -76,7 +76,7 @@ function addToRemote(address, descr, money) {
             .catch((error) => {
                 console.log(error);
                 let arrError = document.getElementById('arrivalError');
-                arrError.innerHTML = 'Some problem with database - watch logs';
+                arrError.innerHTML = '!!!DataBase error';
             });
     }
 
@@ -93,7 +93,6 @@ function createRow(descr, money, date) {
     document.getElementById('balance').innerHTML = balance;
 
     if (descr !== '' && money !== '') {
-
         let table = document.getElementById('arrivalsTable');
         let tableLength = table.rows.length;
         table.insertRow(tableLength).outerHTML =

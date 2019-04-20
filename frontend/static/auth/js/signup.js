@@ -17,26 +17,6 @@ toSignInButton.addEventListener('click', () => {
 const signUpButton = document.getElementById('signUp');
 const signInButton = document.getElementById('signIn');
 
-/**
- *
- * @param response
- * @returns {*}
- */
-function checkStatus(response) {
-    if (response.status >= 200 && response.status < 300) {
-        return response
-    } else {
-        let error = new Error(response.statusText);
-        error.response = response;
-        throw error;
-    }
-}
-
-/**
- *
- * @param response
- * @returns {any | Promise<any>}
- */
 function parseJSON(response) {
     return response.json();
 }
@@ -45,22 +25,37 @@ signUpButton.addEventListener('click', () => {
     let username = document.getElementById('usernameUp').value;
     let email = document.getElementById('emailUp').value;
     let password = document.getElementById('passwordUp').value;
+    if (username === '' || email === '' || password === '') {
+        document.getElementById('signUpError').innerHTML = 'Invalid data';
+    }
+    else {
+        let opts = {'username': username, 'email': email, 'password': password};
+        register(opts);
+    }
 
-    let opts = { 'username': username, 'email': email, 'password': password };
-
-    function register() {
+    function register(opts) {
         let init = {
             method: 'POST',
             mode: 'cors',
             credential: 'include',
             headers: {
-                "Access-Control-Allow-Credentials" : "true",
-                "Content-Type" : "application/json"},
+                "Access-Control-Allow-Credentials": "true",
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(opts)
         };
 
         fetch('http://127.0.0.1:5000/api/users', init)
-            .then(checkStatus)
+            .then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response;
+                } else {
+                    document.getElementById('signUpError').innerHTML = 'DataBase error';
+                    let error = new Error(response.statusText);
+                    error.response = response;
+                    throw error;
+                }
+            })
             .then(parseJSON)
             .then(data => {
                 setCookie('username', data[0]['username']);
@@ -69,30 +64,34 @@ signUpButton.addEventListener('click', () => {
 
             .catch((error) => {
                 console.log(error);
-                let errorUp = document.getElementById('signUpError');
-                errorUp.innerHTML = 'Such user already exists';
             });
     }
-
-    register();
 });
 
 signInButton.addEventListener('click', () => {
     let username = document.getElementById('usernameIn').value;
     let password = document.getElementById('passwordIn').value;
 
-    let opts = {};
-    if (username.includes('@')) {
+    if (username === '' || password === '') {
+        document.getElementById('signInError').innerHTML = 'Invalid data';
+    }
+    else {
+        let opts = {};
+        if (username.includes('@')) {
 
-        opts = { 'email' : username, 'password' : password};
+            opts = {'email': username, 'password': password};
 
-    } else {
+        } else {
 
-        opts = { 'username': username, 'password': password };
+            opts = {'username': username, 'password': password};
 
+        }
+
+
+        login(opts);
     }
 
-    function login() {
+    function login(opts) {
         let init = {
             method: 'POST',
             mode: 'cors',
@@ -106,7 +105,21 @@ signInButton.addEventListener('click', () => {
         };
 
         fetch('http://127.0.0.1:5000/api/login', init)
-            .then(checkStatus)
+            .then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response;
+                } else {
+                    if (response.status === 403) {
+                        document.getElementById('signInError').innerHTML = 'No such user';
+                    }
+                    else {
+                        document.getElementById('signInError').innerHTML = 'DataBase error';
+                    }
+                    let error = new Error(response.statusText);
+                    error.response = response;
+                    throw error;
+                }
+            })
             .then(parseJSON)
             .then(data => {
                 setCookie('username', data['username']);
@@ -119,6 +132,4 @@ signInButton.addEventListener('click', () => {
                 errorIn.innerHTML = 'No such user';
             });
     }
-
-    login();
 });

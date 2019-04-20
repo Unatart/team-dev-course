@@ -42,8 +42,7 @@ function getChartInfo(opts) {
             })
             .catch(error => {
                 console.error(error);
-                let chartError = document.getElementById('chartError');
-                chartError.innerHTML = 'Bad dates';
+                document.getElementById('chartError').innerHTML = '!!!Bad dates';
             });
     }
 

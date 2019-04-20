@@ -342,7 +342,7 @@ class Repository:
                 }
                 for spending in Spending.select(
                     Spending.amount, Spending.category,
-                ).where(Spending.user == user and start_date >= Spending.date >= finish_date)
+                ).where(Spending.user == user and start_date <= Spending.date <= finish_date)
             ]
 
             total = 0

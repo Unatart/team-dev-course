@@ -26,7 +26,6 @@ function receiveInfo() {
                 setBalance();
             })
             .catch(error => console.error(error));
-
     }
 
     return receive();

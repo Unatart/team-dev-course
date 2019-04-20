@@ -20,6 +20,7 @@ CategoryButton.addEventListener('click', () => {
             for (let i = 0, length = arrCategory.length; i < length; i++) {
                 select.options[i] = new Option(arrCategory[i]['description']);
             }
+            document.getElementById('spendingError').innerHTML = '';
         } else {
             let arrCategory = JSON.parse(window.localStorage.getItem('category'));
 
@@ -65,7 +66,7 @@ function addCategoryToRemote(address, descr) {
             .catch((error) => {
                 console.log(error);
                 let spdError = document.getElementById('spendingError');
-                spdError.innerHTML = 'Some problem with database - watch logs';
+                spdError.innerHTML = '!!!DataBase error.';
             });
     }
 

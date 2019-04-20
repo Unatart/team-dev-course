@@ -1,6 +1,6 @@
 'use strict';
 
-import {getArrTotal, getSpdTotal, objFromArrById} from "./utils.js";
+import {getArrTotal, getSpdTotal, objFromArrById, checkForOnlyNumbers} from "./utils.js";
 import {getTime} from "./utils.js";
 import {getCookie} from "../../../auth/js/cookie.js";
 import {checkStatus, parseJSON} from "../info/utils.js";
@@ -8,6 +8,7 @@ import {checkStatus, parseJSON} from "../info/utils.js";
 
 function editRowS() {
     const n = this.tableLength;
+    console.log(n);
 
     document.getElementById("editButtonS"+n).style.display="none";
     document.getElementById("saveButtonS"+n).style.display="block";
@@ -39,8 +40,8 @@ function saveRowS() {
     let category = document.getElementById("newCategory");
     const selected = category.options[category.selectedIndex].value;
 
-    if (+money > 0) {
-        let id = JSON.parse(window.localStorage.getItem('spendingsList'))[n]['id'];
+    if (+money > 0 && checkForOnlyNumbers(money)) {
+        let id = (JSON.parse(window.localStorage.getItem('spendingsList')).find(x => x.tInd === n))['id'];
         let status = updateToLocalS(descr, money, selected, n, id);
 
         if (status === 200) {
@@ -52,7 +53,9 @@ function saveRowS() {
             document.getElementById("saveButtonS" + n).style.display = "none";
         }
     }
-
+    else {
+        document.getElementById('spendingError').innerHTML = '!!!Second field should contain only money amount(numbers).';
+    }
 }
 
 
@@ -66,8 +69,8 @@ function updateToLocalS(descr, money, selected, n, id) {
     diff = diff >=0 ? diff : (diff * -1);
 
     console.log(totalSpd + diff);
-    if (total - (totalSpd - diff) >= 0) {
-        let balance = total - (totalSpd - diff);
+    if (total - (totalSpd + diff) >= 0) {
+        let balance = total - (totalSpd + diff);
 
         objFromArrById(spdList, id)['description'] = descr;
         objFromArrById(spdList, id)['money'] = money;
@@ -76,13 +79,13 @@ function updateToLocalS(descr, money, selected, n, id) {
         window.localStorage.setItem('balance', balance);
         window.localStorage.setItem('spendingsList', JSON.stringify(spdList));
         document.getElementById('balance').innerHTML = window.localStorage.getItem('balance');
+        document.getElementById('spendingError').innerHTML = '';
         updateToRemoteS('http://127.0.0.1:5000/api/spendings', descr, money, selected, id);
         return 200;
     }
     else {
         console.log(new Error('negative balance updateToLocalS'));
-        let spdError = document.getElementById('spendingError');
-        spdError.innerHTML = 'Bad balance';
+        document.getElementById('spendingError').innerHTML = '!!!Cant do that. Negative balance';
         return 400;
     }
 
@@ -111,8 +114,7 @@ function updateToRemoteS(address, descr, money, category, id) {
             .then(parseJSON)
             .catch((error) => {
                 console.log(error);
-                let spdError = document.getElementById('spendingError');
-                spdError.innerHTML = 'Some problem with database - watch logs';
+                document.getElementById('spendingError').innerHTML = '!!!DataBase error.';
             });
     }
 
@@ -123,7 +125,7 @@ function updateToRemoteS(address, descr, money, category, id) {
 function deleteRowS() {
     const n = this.tableLength;
 
-    let id = JSON.parse(window.localStorage.getItem('spendingsList'))[n]['id'];
+    let id = (JSON.parse(window.localStorage.getItem('spendingsList')).find(x => x.tInd === n))['id'];
     document.getElementById("rowS"+n+"").outerHTML="";
     deleteToLocalS(n, id);
 }
@@ -144,6 +146,7 @@ function deleteToLocalS(n, id) {
     let balance = total - totalSpd ;
 
     window.localStorage.setItem('balance', balance);
+    document.getElementById('spendingError').innerHTML = '';
     document.getElementById('balance').innerHTML = window.localStorage.getItem('balance');
     deleteToRemoteS('http://127.0.0.1:5000/api/spendings', id);
 }
@@ -171,7 +174,7 @@ function deleteToRemoteS(address, id) {
             .catch((error) => {
                 console.log(error);
                 let spdError = document.getElementById('spendingError');
-                spdError.innerHTML = 'Some problem with database - watch logs';
+                spdError.innerHTML = '!!!DataBase error';
             });
     }
 

@@ -60,3 +60,12 @@ export let style = 'border: rgba(0,0,0,0); ' +
 export function objFromArrById(arr, n) {
     return arr.find(obj => obj.id === n);
 }
+
+export function checkForOnlyNumbers(str) {
+    for (let i of str) {
+        if ( i >= '0' && i <= '9') {
+            return true;
+        }
+    }
+    return false;
+}

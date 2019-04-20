@@ -24,6 +24,7 @@ function setCategories() {
 function setTableArrivals() {
     let arrList = JSON.parse(window.localStorage.getItem('arrivalsList'));
 
+    let fullArrList = [];
     if (arrList !== 'null') {
         let table = document.getElementById('arrivalsTable');
 
@@ -31,8 +32,10 @@ function setTableArrivals() {
             const descr = arrList[i]['description'];
             const money = arrList[i]['money'];
             const date = arrList[i]['date'];
-
+            const id = arrList[i]['id'];
             let tableLength = i;
+            let currChild = {'id': id, 'description': descr, 'money': money, 'data': date, 'tInd': tableLength};
+
             table.insertRow(tableLength).outerHTML =
                 "<tr id='row" + tableLength + "'>" +
                     "<td id='descrRow" + tableLength + "'>" + descr + "</td>" +
@@ -49,13 +52,16 @@ function setTableArrivals() {
             document.getElementById('saveButton'+tableLength).onclick = saveRow.bind({...this, tableLength});
             document.getElementById('deleteButton'+tableLength).onclick = deleteRow.bind({...this, tableLength});
 
+            fullArrList.push(currChild);
         }
     }
+    window.localStorage.setItem('arrivalsList', JSON.stringify(fullArrList));
 }
 
 function setTableSpendings() {
     let spdList = JSON.parse(window.localStorage.getItem('spendingsList'));
 
+    let fullSpdList = [];
     if (spdList !== 'null') {
         let table = document.getElementById('spendingsTable');
 
@@ -64,8 +70,9 @@ function setTableSpendings() {
             const money = spdList[i]['money'];
             const selected = spdList[i]['category'];
             const date = spdList[i]['date'];
-
+            const id = spdList[i]['id'];
             let tableLength = i;
+            let currentChild = {'id': id, 'description': descr, 'money': money, 'category': selected, 'data': date, 'tInd': tableLength};
             table.insertRow(tableLength).outerHTML =
                 "<tr id='rowS" + tableLength + "'>" +
                     "<td id='descrRowS" + tableLength + "'>" + descr + "</td>" +
@@ -82,8 +89,9 @@ function setTableSpendings() {
             document.getElementById('editButtonS'+tableLength).onclick = editRowS.bind({...this, tableLength});
             document.getElementById('saveButtonS'+tableLength).onclick = saveRowS.bind({...this, tableLength});
             document.getElementById('deleteButtonS'+tableLength).onclick = deleteRowS.bind({...this, tableLength});
-
+            fullSpdList.push(currentChild);
         }
+        window.localStorage.setItem('spendingsList', JSON.stringify(fullSpdList));
     }
 }
 
