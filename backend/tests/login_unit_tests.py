@@ -1,8 +1,9 @@
 import unittest
-from database_wrapper import Repository as repository
-from database_models import User
-from app import APP as app
 from unittest.mock import MagicMock
+
+from app import APP as app
+from database_models import User
+from database_wrapper import Repository as repository
 from tests.utils import *
 
 
@@ -104,4 +105,3 @@ class LoginTests(unittest.TestCase):
             rv = login(c, CORRECT_USERNAME_1, CORRECT_EMAIL_1, None)
 
             assert rv._status_code == 400
-

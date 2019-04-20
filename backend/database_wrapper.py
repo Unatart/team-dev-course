@@ -1,17 +1,44 @@
+""" @package database_wrapper
+Wrapper of app database
+"""
+
 from passlib.hash import pbkdf2_sha256
 from database_models import User, Arrival, Category, Spending
 from validator import Validator
 
 
 def generate_password_hash(password):
+    """ Generates hash for password to store it in db
+    Args:
+        password (str): password
+    Returns:
+        SHA256 hash of password
+    """
     return pbkdf2_sha256.encrypt(password, rounds=200000, salt_size=16)
 
 
 class Repository:
+    """DB wrapper class
+    """
     def __init__(self, database):
+        """ __init__ method
+        Args:
+            database (peewee.PostgresqlDatabase): given database object
+        """
         self.database = database
 
     def create_user(self, user):
+        """ Creates user with given parameters
+        Args:
+            user (dict(username, email, password)): dict with user info
+        Returns:
+            if user data is valid: {
+                'username': str,
+                'email', str,
+            }, 201
+        Raises:
+            ValueError: if dict lacks one of fields or password fails to validate
+        """
         with self.database.atomic():
             if user is None or 'email' not in user or 'username' not in user \
                     or 'password' not in user:
@@ -28,6 +55,17 @@ class Repository:
             return {"username": new_user.username, "email": new_user.email}, 201
 
     def login(self, user):
+        """ Performs user authentication
+        Args:
+            user (dict(username | email, password)): dict with user info
+        Returns:
+            {
+                'username': str,
+                'email', str,
+            }, 200 if user data is valid
+
+            {}, 403 if password is invalid
+        """
         with self.database.atomic():
             if 'email' in user:
                 db_user = User.get(User.email == user['email'])
@@ -38,6 +76,14 @@ class Repository:
             return {'username': db_user.username, 'email': db_user.email}, 200
 
     def add_arrival(self, req):
+        """ Adds arrival to database
+        Args:
+            req (dict(username, amount, description, date)): dict with arrival info
+        Returns:
+            {
+                'id': int
+            }, 201 if arrival info is valid
+        """
         with self.database.atomic():
             db_user = User.get(User.username == req['username'])
 
@@ -51,6 +97,22 @@ class Repository:
             return {'id': new_arrival.get_id()}, 201
 
     def update_arrival(self, req, arrival_id):
+        """ Updates arrival data in database
+        Args:
+            req (dict(username, amount, description, date)): dict with arrival info,
+            arrival_id (int): id of arrival to modify
+        Returns:
+            {
+                'id': int,
+                'amount': int,
+                'description': str,
+                'date': str
+            }, 200 if arrival info is valid
+
+            {}, 403 if user doesn't have permission to modify arrival with given id
+
+            {}, 404 if arrival with given id does not exist
+        """
         with self.database.atomic():
             arrival = Arrival.get_by_id(arrival_id)
             if arrival is not None:
@@ -70,6 +132,17 @@ class Repository:
             }, 200
 
     def delete_arrival(self, req, arrival_id):
+        """ Deletes arrival data from database
+        Args:
+            req (dict(username)): dict with arrival info,
+            arrival_id (int): id of arrival to modify
+        Returns:
+            {}, 200 if arrival info is valid
+
+            {}, 403 if user doesn't have permission to modify arrival with given id
+
+            {}, 404 if arrival with given id does not exist
+        """
         with self.database.atomic():
             user = User.get(User.username == req['username'])
             arrival = Arrival.get_by_id(arrival_id)
@@ -83,6 +156,14 @@ class Repository:
             return {}, 200
 
     def add_category(self, req):
+        """ Adds category to database
+        Args:
+            req (dict(username, description)): dict with category info
+        Returns:
+            {
+                'id': int
+            }, 201 if category info is valid
+        """
         with self.database.atomic():
             user = User.get(User.username == req['username'])
             description = req['description']
@@ -93,6 +174,14 @@ class Repository:
             return {'id': category.get_id()}, 201
 
     def add_spending(self, req):
+        """ Adds spending to database
+        Args:
+            req (dict(username, amount, description, date, category)): dict with spending info
+        Returns:
+            {
+                'id': int
+            }, 201 if spending info is valid
+        """
         with self.database.atomic():
             user = User.get(User.username == req['username'])
 
@@ -108,6 +197,23 @@ class Repository:
             return {'id': spending.get_id()}, 201
 
     def update_spending(self, req, spending_id):
+        """ Updates spending data in database
+        Args:
+            req (dict(username, amount, description, date)): dict with spending info,
+            spending_id (int): id of spending to modify
+        Returns:
+            {
+                'id': int,
+                'amount': int,
+                'description': str,
+                'date': str,
+                'category': str,
+            }, 200 if spending info is valid
+
+            {}, 403 if user doesn't have permission to modify spending with given id
+
+            {}, 404 if spending with given id does not exist
+        """
         with self.database.atomic():
             user = User.get(User.username == req['username'])
 
@@ -129,6 +235,17 @@ class Repository:
             }, 200
 
     def delete_spending(self, req, spending_id):
+        """ Deletes arrival data from database
+        Args:
+            req (dict(username)): dict with spending info,
+            spending_id (int): id of spending to modify
+        Returns:
+            {}, 200 if spending info is valid
+
+            {}, 403 if user doesn't have permission to modify spending with given id
+
+            {}, 404 if spending with given id does not exist
+        """
         with self.database.atomic():
             user = User.get(User.username == req['username'])
             spending = Spending.get_by_id(spending_id)
@@ -142,6 +259,18 @@ class Repository:
             return {}, 200
 
     def get_user_tables(self, username):
+        """ Gives all spending, arrival, category for user
+        Args:
+            username (str): username of given user
+
+        Returns:
+            {
+                'arrivalsList': list of {money: int, description: str, date: str, id: int},
+                'category': list of {description: str},
+                'spendingsList': list of {money: int, description: str, date: str, category: str, id: int}
+                'user': str
+            }, 200
+        """
         with self.database.atomic():
             user = User.get(User.username == username)
 
@@ -184,6 +313,15 @@ class Repository:
             }, 200
 
     def get_chart_info(self, req):
+        """ Gives spending data by category for pie chart
+        Args:
+            req (dict(start_date, finish_date)): dates for spending monitoring
+
+        Returns:
+            {
+                'info': list of {'category': str, 'money': float}
+            }, 200
+        """
         with self.database.atomic():
             user = User.get(User.username == req['username'])
 

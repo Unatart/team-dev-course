@@ -1,8 +1,10 @@
 import unittest
-import peewee
-from database_wrapper import Repository as repository
-from app import APP as app
 from unittest.mock import MagicMock
+
+import peewee
+
+from app import APP as app
+from database_wrapper import Repository as repository
 from tests.utils import *
 
 

@@ -1,18 +1,24 @@
+""" @package run_tests
+Point of entry for test runner
+"""
+
 import unittest
 
-import tests.create_user_unit_tests
-import tests.login_unit_tests
-import tests.validator_unit_tests
+from tests import create_user_unit_tests, login_unit_tests, validator_unit_tests
 
 
-if __name__ == "__main__":
+def main():
     runner = unittest.TextTestRunner()
     runner.run(
         unittest.TestSuite(
             (
-                unittest.makeSuite(tests.create_user_unit_tests.CreateUserTests),
-                unittest.makeSuite(tests.login_unit_tests.LoginTests),
-                unittest.makeSuite(tests.validator_unit_tests.ValidatorTests)
+                unittest.makeSuite(create_user_unit_tests.CreateUserTests),
+                unittest.makeSuite(login_unit_tests.LoginTests),
+                unittest.makeSuite(validator_unit_tests.ValidatorTests)
             )
         )
     )
+
+
+if __name__ == "__main__":
+    main()
