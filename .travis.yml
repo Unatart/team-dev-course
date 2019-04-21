@@ -41,7 +41,6 @@ matrix:
               packages:
                 - doxygen
         before_script:
-            cd ../
             cd backend
         script:
             - doxygen Doxyfile
