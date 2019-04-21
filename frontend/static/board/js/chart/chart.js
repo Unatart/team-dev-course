@@ -2,6 +2,7 @@
 
 import {getCookie} from "../../../auth/js/cookie.js";
 import {checkStatus} from "../info/utils.js";
+import {getSpdTotal} from "../table/utils.js";
 
 
 const dateButton = document.getElementById('dateButton');
@@ -10,8 +11,13 @@ dateButton.addEventListener('click', () => {
     const startDate = formatDate(document.getElementById('startDate').value);
     const finishDate = formatDate(document.getElementById('finishDate').value);
     console.log(startDate, finishDate);
-    let opts = {'start_date': startDate, 'finish_date': finishDate, 'username': getCookie('username')};
-    getChartInfo(opts);
+    if (getSpdTotal() === 0) {
+        document.getElementById('chartError').innerHTML = '!!!Spendings list is empty.';
+    }
+    else {
+        let opts = {'start_date': startDate, 'finish_date': finishDate, 'username': getCookie('username')};
+        getChartInfo(opts);
+    }
 });
 
 function formatDate(input) {
@@ -38,6 +44,7 @@ function getChartInfo(opts) {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
+                document.getElementById('chartError').innerHTML = '';
                 createChart(data);
             })
             .catch(error => {

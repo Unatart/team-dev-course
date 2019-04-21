@@ -12,16 +12,13 @@ addRowButton.addEventListener('click', () => {
     const money = document.getElementById('money').value;
 
     if (descr !== '' && money !== '') {
-        if (checkForOnlyNumbers(money)) {
-            if (+money > 0) {
-                document.getElementById('arrivalError').innerHTML = '';
-                addToRemote('http://127.0.0.1:5000/api/arrivals', descr, money);
-            }
-
+        if (+money > 0 && checkForOnlyNumbers(money) && money.charAt(0) !== '0') {
+            document.getElementById('arrivalError').innerHTML = '';
+            addToRemote('http://127.0.0.1:5000/api/arrivals', descr, money);
             document.getElementById('description').value = '';
             document.getElementById('money').value = '';
         } else {
-            document.getElementById('arrivalError').innerHTML = '!!!Second field should contain only money amount(numbers).'
+            document.getElementById('arrivalError').innerHTML = '!!!Second field should contain only money amount.'
         }
     } else {
         document.getElementById('arrivalError').innerHTML = '!!!Fields must be filled.';

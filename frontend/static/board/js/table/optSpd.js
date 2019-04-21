@@ -40,7 +40,7 @@ function saveRowS() {
     let category = document.getElementById("newCategory");
     const selected = category.options[category.selectedIndex].value;
 
-    if (+money > 0 && checkForOnlyNumbers(money)) {
+    if (+money > 0 && checkForOnlyNumbers(money) && money.charAt(0) !== '0') {
         let id = (JSON.parse(window.localStorage.getItem('spendingsList')).find(x => x.tInd === n))['id'];
         let status = updateToLocalS(descr, money, selected, n, id);
 

@@ -27,7 +27,7 @@ function saveRow() {
     let descr = document.getElementById("descrText"+n).value;
     let money = document.getElementById("moneyText"+n).value;
 
-    if (+money > 0 && checkForOnlyNumbers(money)) {
+    if (+money > 0 && checkForOnlyNumbers(money) && money.charAt(0) !== '0') {
         let id = (JSON.parse(window.localStorage.getItem('arrivalsList')).find(x => x.tInd === n))['id'];
         let status = updateToLocal(descr, money, n, id);
         if (status === 200) {

@@ -21,15 +21,14 @@ addRowButtonS.addEventListener('click', () => {
         console.log(selected);
         if (descr !== '' && money !== '') {
             document.getElementById('spendingError').innerHTML = '';
-            if (+money > 0 && checkForOnlyNumbers(money)) {
+            if (+money > 0 && checkForOnlyNumbers(money) && money.charAt(0) !== '0') {
                 addToRemoteS('http://127.0.0.1:5000/api/spendings', descr, money, selected);
+                document.getElementById('description2').value = '';
+                document.getElementById('money2').value = '';
             }
             else {
                 document.getElementById('spendingError').innerHTML = '!!!Second field should contain only money amount(numbers).';
             }
-
-            document.getElementById('description2').value = '';
-            document.getElementById('money2').value = '';
         } else {
             document.getElementById('spendingError').innerHTML = '!!!Fields must be filled.';
         }
